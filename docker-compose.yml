@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    networks:
+      - archiver-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin
+    networks:
+      - archiver-network
+    restart: always
+    ports:
+      - 8088:80
+    environment:
+      - PMA_ARBITRARY=1
+networks:
+  archiver-network:
